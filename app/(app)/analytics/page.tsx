@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import PageHeader from "@/components/app/PageHeader"
 import DateRangeFilter from "@/components/filters/DateRangeFilter"
 import Card from "@/components/ui/Card"
@@ -5,6 +6,10 @@ import TrendCard from "@/components/cards/TrendCard"
 import TimeSeriesLineChart from "@/components/charts/TimeSeriesLineChart"
 import BarChartRankedBreakdown from "@/components/charts/BarChartRankedBreakdown"
 import { getAnalyticsData } from "@/lib/adapters/analyticsAdapter"
+
+function AnalyticsDateFilter() {
+  return <DateRangeFilter />
+}
 
 export default function AnalyticsPage() {
   const data = getAnalyticsData()
@@ -14,7 +19,11 @@ export default function AnalyticsPage() {
       <PageHeader
         title="Analytics"
         description="Decision-first reporting across clicks, conversions, sources, and campaign output."
-        actions={<DateRangeFilter />}
+        actions={
+          <Suspense fallback={<div className="h-10 w-[260px] rounded-lg border bg-white" />}>
+            <AnalyticsDateFilter />
+          </Suspense>
+        }
       />
 
       <div className="grid gap-6 xl:grid-cols-2">
@@ -34,12 +43,19 @@ export default function AnalyticsPage() {
           <h3 className="font-semibold">Top Campaigns</h3>
           <div className="space-y-3">
             {data.campaignPerformance.slice(0, 8).map((item) => (
-              <div key={item.campaignId} className="flex items-center justify-between rounded-xl bg-slate-50 p-4">
+              <div
+                key={item.campaignId}
+                className="flex items-center justify-between rounded-xl bg-slate-50 p-4"
+              >
                 <div>
                   <div className="text-sm font-medium">{item.label}</div>
-                  <div className="text-xs text-slate-500">{item.links} links • {item.conversions} conversions</div>
+                  <div className="text-xs text-slate-500">
+                    {item.links} links • {item.conversions} conversions
+                  </div>
                 </div>
-                <div className="text-sm font-semibold">${item.revenue.toLocaleString()}</div>
+                <div className="text-sm font-semibold">
+                  ${item.revenue.toLocaleString()}
+                </div>
               </div>
             ))}
           </div>
