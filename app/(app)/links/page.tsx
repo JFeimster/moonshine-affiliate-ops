@@ -27,6 +27,14 @@ function LinksFilters() {
   )
 }
 
+function LinksFiltersFallback() {
+  return (
+    <Card className="h-24 animate-pulse">
+      <div />
+    </Card>
+  )
+}
+
 export default function LinksPage() {
   const rows = getLinks()
 
@@ -37,15 +45,17 @@ export default function LinksPage() {
         description="Search, filter, inspect, archive, and export affiliate links."
         actions={
           <>
-            <Button variant="secondary">Export Current View</Button>
-            <Link href="/links">
-              <Button>Create Link</Button>
+            <Button type="button" variant="secondary">
+              Export Current View
+            </Button>
+            <Link href="/links/new">
+              <Button type="button">Create Link</Button>
             </Link>
           </>
         }
       />
 
-      <Suspense fallback={<Card className="h-24 animate-pulse" />}>
+      <Suspense fallback={<LinksFiltersFallback />}>
         <LinksFilters />
       </Suspense>
 
