@@ -2,17 +2,19 @@ import Badge from "@/components/ui/Badge"
 import Button from "@/components/ui/Button"
 import { Table, TBody, TD, TH, THead } from "@/components/ui/Table"
 
+type ExportHistoryRow = {
+  id: string
+  fileName: string
+  type: string
+  status: string
+  createdAt: string
+  fileUrl: string
+}
+
 export default function ExportHistoryTable({
   rows,
 }: {
-  rows: Array<{
-    id: string
-    fileName: string
-    type: string
-    status: string
-    createdAt: string
-    fileUrl: string
-  }>
+  rows: ReadonlyArray<ExportHistoryRow>
 }) {
   return (
     <div className="overflow-hidden rounded-2xl border bg-white shadow-soft">
@@ -33,13 +35,25 @@ export default function ExportHistoryTable({
                 <TD>{row.fileName}</TD>
                 <TD>{row.type}</TD>
                 <TD>
-                  <Badge tone={row.status === "completed" ? "green" : row.status === "processing" ? "blue" : "red"}>
+                  <Badge
+                    tone={
+                      row.status === "completed"
+                        ? "green"
+                        : row.status === "processing"
+                          ? "blue"
+                          : "red"
+                    }
+                  >
                     {row.status}
                   </Badge>
                 </TD>
                 <TD>{row.createdAt.slice(0, 10)}</TD>
                 <TD>
-                  <Button type="button" variant="secondary" disabled={row.status !== "completed"}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={row.status !== "completed"}
+                  >
                     Download
                   </Button>
                 </TD>
