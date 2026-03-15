@@ -22,6 +22,14 @@ function CampaignFilters() {
   )
 }
 
+function CampaignFiltersFallback() {
+  return (
+    <Card className="h-24 animate-pulse">
+      <div />
+    </Card>
+  )
+}
+
 export default function CampaignsPage() {
   const rows = getCampaigns()
 
@@ -32,6 +40,15 @@ export default function CampaignsPage() {
         description="Group link performance by campaign, manage metadata, and archive inactive efforts."
         actions={<Button>Create Campaign</Button>}
       />
+
+      <Suspense fallback={<CampaignFiltersFallback />}>
+        <CampaignFilters />
+      </Suspense>
+
+      <CampaignsTable rows={rows} />
+    </div>
+  )
+}
 
       <Suspense fallback={<Card className="h-24 animate-pulse" />}>
         <CampaignFilters />
