@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import PageHeader from "@/components/app/PageHeader"
 import LinksTable from "@/components/tables/LinksTable"
 import SearchFilter from "@/components/filters/SearchFilter"
@@ -11,6 +12,21 @@ import Button from "@/components/ui/Button"
 import Link from "next/link"
 import { getLinks } from "@/lib/adapters/linkAdapter"
 
+function LinksFilters() {
+  return (
+    <Card className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
+      <SearchFilter />
+      <CampaignFilter />
+      <SourceFilter />
+      <StatusFilter />
+      <DateRangeFilter />
+      <div className="flex items-center justify-end">
+        <ClearAllFilters />
+      </div>
+    </Card>
+  )
+}
+
 export default function LinksPage() {
   const rows = getLinks()
 
@@ -22,21 +38,16 @@ export default function LinksPage() {
         actions={
           <>
             <Button variant="secondary">Export Current View</Button>
-            <Link href="/links/new"><Button>Create Link</Button></Link>
+            <Link href="/links">
+              <Button>Create Link</Button>
+            </Link>
           </>
         }
       />
 
-      <Card className="grid gap-3 md:grid-cols-2 xl:grid-cols-6">
-        <SearchFilter />
-        <CampaignFilter />
-        <SourceFilter />
-        <StatusFilter />
-        <DateRangeFilter />
-        <div className="flex items-center justify-end">
-          <ClearAllFilters />
-        </div>
-      </Card>
+      <Suspense fallback={<Card className="h-24 animate-pulse" />}>
+        <LinksFilters />
+      </Suspense>
 
       <LinksTable rows={rows} />
     </div>
