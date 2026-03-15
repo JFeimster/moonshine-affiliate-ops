@@ -38,19 +38,10 @@ export default function CampaignsPage() {
       <PageHeader
         title="Campaigns"
         description="Group link performance by campaign, manage metadata, and archive inactive efforts."
-        actions={<Button>Create Campaign</Button>}
+        actions={<Button type="button">Create Campaign</Button>}
       />
 
       <Suspense fallback={<CampaignFiltersFallback />}>
-        <CampaignFilters />
-      </Suspense>
-
-      <CampaignsTable rows={rows} />
-    </div>
-  )
-}
-
-      <Suspense fallback={<Card className="h-24 animate-pulse" />}>
         <CampaignFilters />
       </Suspense>
 
